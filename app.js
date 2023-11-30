@@ -8,6 +8,8 @@ const app = express()
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views')) // creat an absolute path that is reconize on every operating systems
 
+app.use(express.static('public'))
+
 app.use(authRouters)
 
 app.listen(3000)
