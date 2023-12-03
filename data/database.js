@@ -14,6 +14,7 @@ function getDb() {
     if (!database) {
         throw new Error('You must connect first!') // create an error object if there is an error!
     }
+    return database;
 }
 
 module.exports = {
