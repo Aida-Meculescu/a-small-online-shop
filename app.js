@@ -1,11 +1,15 @@
 const path = require('path') // is a build in package
 const express = require('express')
 const csrf = require('csurf')
+const expressSession = require('express-session')
 
+const createSessionConfig = require('./config/session')
 const db = require('./data/database')
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
 const authRouters = require('./routes/auth.routes')
+const productsRoutes = require('./routes/products.routes')
+const baseRoutes = require('./routes/base.routes')
 
 const app = express()
 
@@ -14,10 +18,15 @@ app.set('views', path.join(__dirname, 'views')) // creat an absolute path that i
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }));
+const sessionConfig = createSessionConfig()
 
+app.use(expressSession(sessionConfig))
 app.use(csrf()) // activate the csrf token before routes! / create the token
 app.use(addCsrfTokenMiddleware) // here use the token in the global variable (locals)
+
+app.use(baseRoutes)
 app.use(authRouters)
+app.use(productsRoutes)
 
 app.use(errorHandlerMiddleware)
 

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../data/database');
 
 class User {
-    constructor(email, password, fullname, street, postal, city) {
+    constructor(email, password, fullname, street, postal, city) { // if you have only one value the rest(parameters) will automatically be set to undefined
         this.email = email;
         this.password = password;
         this.name = fullname;
@@ -12,6 +12,10 @@ class User {
             postalCode: postal,
             city: city
         };
+    }
+
+    getUserWithSameEmail() {
+        return db.getDb().collection('users').findOne({ email: this.email }) // findOne method return a promise so we dont need async-await 
     }
 
     async signup() {
@@ -23,6 +27,10 @@ class User {
             name: this.name,
             address: this.address
         });
+    }
+
+    hasMatchingPassword(hashedPassword) {
+        return bcrypt.compare(thies.password, hashedPassword)
     }
 }
 
