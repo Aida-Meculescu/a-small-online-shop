@@ -30,7 +30,7 @@ class User {
     }
 
     hasMatchingPassword(hashedPassword) {
-        return bcrypt.compare(thies.password, hashedPassword)
+        return bcrypt.compare(this.password, hashedPassword)
     }
 }
 
